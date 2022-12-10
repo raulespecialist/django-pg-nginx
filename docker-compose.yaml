@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  rabbit:
+    image: rabbitmq:3.7-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .live.env
+
   db_postgres:
     image: postgres:14.5
     ports:
@@ -15,7 +24,7 @@ services:
   django_app:
     build: .
     volumes:
-      - static:/code/static
+      - static:/code/core/static
       - .:/code
     depends_on:
       - db_postgres
@@ -23,10 +32,10 @@ services:
   nginx:
     image: nginx:1.23.1
     ports:
-      - 8000:8000
+      - 80:82
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - static:/code/static
+      - static:/code/core/static
     depends_on:
       - django_app
 

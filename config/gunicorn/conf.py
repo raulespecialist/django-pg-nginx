@@ -2,4 +2,4 @@ name = 'core'
 loglevel = 'info'
 errorlog = '-'
 accesslog = '-'
-workers = 2
+workers = 4
